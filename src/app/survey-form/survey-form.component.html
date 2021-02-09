@@ -1,0 +1,30 @@
+<div class="container">
+	<h2>Survey form</h2>
+	<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+		<ng-container *ngFor="let item of questions;let i = index">
+			<div [hidden]="item.isHidden">
+				<label>{{item.description}}</label>
+				<div *ngIf="!item.options">
+					<input [formControlName]="item.type" type={{item.type}} placeholder="Your {{item.type}}"><br>
+				</div>
+				<div *ngIf="item.type === 'radio'">
+
+					<div *ngFor="let it of item.options">
+						<input [formControlName]="item.type" type="radio" value={{it.value}}>
+						{{it.value}}
+					</div>
+				</div>
+				<div *ngIf="item.type === 'checkbox'">
+
+					<div *ngFor="let it of item.options">
+						<input [formControlName]="item.type" type="checkbox" value={{it.value}} [ngModel]="it.value">
+						{{it.value}}
+					</div>
+				</div>
+
+				<button (click)="questions[i].isHidden = true;questions[i + 1] ?questions[i + 1].isHidden = false : false">Next</button>
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</ng-container>
+	</form>
+</div>
